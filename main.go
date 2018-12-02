@@ -10,7 +10,6 @@ import (
 
 // Message contains user data
 type Message struct {
-	Email    string `json:"email"`
 	Username string `json:"username"`
 	Message  string `json:"message"`
 }
@@ -69,7 +68,7 @@ func handleMessages() {
 }
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("./views")))
+	http.Handle("/", http.FileServer(http.Dir("./views/")))
 	http.HandleFunc("/ws", handleConnections)
 	go handleMessages()
 	log.Println("Server started on ", port)
