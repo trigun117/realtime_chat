@@ -47,6 +47,7 @@ class App extends React.Component {
             return;
         }
         this.setState(prevState => {
+            M.toast({ html: 'You have been joined' });
             return {
                 userName: prevState.userName,
                 joined: true,
