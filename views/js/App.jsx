@@ -93,7 +93,7 @@ class App extends React.Component {
                     />
                     {userInput}
                 </main>
-                <footer className='page-footer'></footer>
+                <footer></footer>
             </div>
         );
     }
