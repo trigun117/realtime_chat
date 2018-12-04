@@ -14,14 +14,10 @@ class App extends React.Component {
         this.ws = new WebSocket(HOST+'/ws');
         this.ws.addEventListener('message', e => {
             let msg = JSON.parse(e.data);
+            let el = `<div class='chip'>` + msg.username + `</div>` + msg.message + `<br/>`
             this.setState(prevState => {
                 return {
-                    chatContent: prevState.chatContent +
-                        `<div class='chip'>
-                            ${msg.username}
-                        </div>
-                        ${msg.message}
-                        <br/>`
+                    chatContent: prevState.chatContent + el
                 }
             });
         })
