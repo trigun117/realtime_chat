@@ -10,7 +10,8 @@ class App extends React.Component {
         }
     }
     componentWillMount() {
-        this.ws = new WebSocket('ws://localhost/ws');
+        const HOST = window.location.origin.replace(/^http/, 'ws');
+        this.ws = new WebSocket(HOST+'/ws');
         this.ws.addEventListener('message', e => {
             let msg = JSON.parse(e.data);
             this.setState(prevState => {
