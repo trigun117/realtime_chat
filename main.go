@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -14,16 +15,31 @@ type Message struct {
 	Message  string `json:"message"`
 }
 
+// Count contains count of connected users
+type Count struct {
+	UsersCount int `json:"users_count"`
+}
+
 const port = ":80"
 
 var clients = make(map[*websocket.Conn]bool)
 var broadcast = make(chan Message)
 var m sync.Mutex
+var c Count
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},
+}
+
+func (c *Count) countUsers() {
+	c.UsersCount = len(clients)
+}
+
+func handleCount(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(c)
 }
 
 func handleConnections(w http.ResponseWriter, r *http.Request) {
@@ -34,6 +50,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	defer ws.Close()
 	m.Lock()
 	clients[ws] = true
+	c.countUsers()
 	m.Unlock()
 	for {
 		var msg Message
@@ -42,6 +59,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 			m.Lock()
 			delete(clients, ws)
+			c.countUsers()
 			m.Unlock()
 			break
 		}
@@ -60,6 +78,7 @@ func handleMessages() {
 				client.Close()
 				m.Lock()
 				delete(clients, client)
+				c.countUsers()
 				m.Unlock()
 			}
 
@@ -70,6 +89,7 @@ func handleMessages() {
 func main() {
 	http.Handle("/", http.FileServer(http.Dir("./views/")))
 	http.HandleFunc("/ws", handleConnections)
+	http.HandleFunc("/count", handleCount)
 	go handleMessages()
 	log.Println("Server started on ", port)
 	log.Fatal(http.ListenAndServe(port, nil))

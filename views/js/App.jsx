@@ -7,11 +7,12 @@ class App extends React.Component {
             chatContent: '',
             userName: '',
             joined: false,
+            usersCount: 0,
         }
     }
     componentWillMount() {
         const HOST = window.location.origin.replace(/^http/, 'ws');
-        this.ws = new WebSocket(HOST+'/ws');
+        this.ws = new WebSocket(HOST + '/ws');
         this.ws.addEventListener('message', e => {
             let msg = JSON.parse(e.data);
             let el = `<div class='chip'>` + msg.username + `</div>` + msg.message + `<br/>`
@@ -22,8 +23,16 @@ class App extends React.Component {
             });
         })
     }
+    getUsersCount = () => {
+        const HOST = window.location.origin;
+        console.log(HOST + '/count');
+        fetch(HOST + '/count')
+            .then(resp => resp.json())
+            .then(data => this.setState({ usersCount: data.users_count }));
+    }
     send() {
         if (this.state.newMSG !== '') {
+            this.getUsersCount();
             this.ws.send(
                 JSON.stringify({
                     username: this.state.userName,
@@ -43,6 +52,7 @@ class App extends React.Component {
             M.toast({ html: 'You must choose a username' });
             return;
         }
+        this.getUsersCount();
         this.setState(prevState => {
             M.toast({ html: 'You have been joined' });
             return {
@@ -84,6 +94,9 @@ class App extends React.Component {
                     <nav>
                         <a href="/" className="brand-logo right">
                             RealTime Chat
+                        </a>
+                        <a className="brand-logo left">
+                            Users Online: {this.state.usersCount}
                         </a>
                     </nav>
                 </header>
