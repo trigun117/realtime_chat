@@ -92,7 +92,7 @@ class App extends React.Component {
                 <header>
                     <nav>
                         <a href="/" className="brand-logo right">
-                            RealTime Chat
+                            Chat
                         </a>
                         <a className="brand-logo left">
                             Users Online: {this.state.usersCount}
