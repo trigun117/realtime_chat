@@ -32,7 +32,6 @@ class App extends React.Component {
     }
     send() {
         if (this.state.newMSG !== '') {
-            this.getUsersCount();
             this.ws.send(
                 JSON.stringify({
                     username: this.state.userName,
@@ -52,7 +51,6 @@ class App extends React.Component {
             M.toast({ html: 'You must choose a username' });
             return;
         }
-        this.getUsersCount();
         this.setState(prevState => {
             M.toast({ html: 'You have been joined' });
             return {
@@ -72,6 +70,7 @@ class App extends React.Component {
         })
     }
     render() {
+        this.getUsersCount();
         let userInput;
         if (this.state.joined) {
             userInput =
