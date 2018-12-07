@@ -11,4 +11,4 @@ addons:
       - docker-ce
 
 script:
-  - build_docker.sh
+  - sh build_docker.sh
