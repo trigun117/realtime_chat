@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -34,6 +35,9 @@ var upgrader = websocket.Upgrader{
 }
 
 func (c *Count) countUsers() {
+	for k, v := range clients {
+		fmt.Println(k, v)
+	}
 	c.UsersCount = len(clients)
 }
 

@@ -1,0 +1,14 @@
+sudo: required
+
+language: go
+
+go:
+  - master
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+script:
+  - build_docker.sh
