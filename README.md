@@ -4,7 +4,7 @@ Realtime chat. Builed with React.js and Golang on WebSocket.
 
 # Examples
 
-![chat example](https://github.com/realtime_chat/blob/master/image.JPG)
+![chat example](https://github.com/realtime_chat/blob/master/image.jpg)
 
 # Get Started
 Clone repository `git clone https://github.com/trigun117/realtime_chat.git`
