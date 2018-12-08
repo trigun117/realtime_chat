@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/trigun117/realtime_chat.svg?branch=master)](https://travis-ci.com/trigun117/realtime_chat) [![Go Report Card](https://goreportcard.com/badge/github.com/trigun117/realtime_chat)](https://goreportcard.com/report/github.com/trigun117/realtime_chat)
 # realtime_chat
-Realtime chat. Builed with React.js and Golang on WebSocket.
+Realtime chat. Builded with React.js and Golang on WebSocket.
 
 # Examples
 
